@@ -18,4 +18,12 @@ public class Jogo {
   public String getTipo() {
     return this.tipo;
   }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
 }

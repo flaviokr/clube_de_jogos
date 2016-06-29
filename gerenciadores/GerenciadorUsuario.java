@@ -17,12 +17,14 @@ public class GerenciadorUsuario <U>{
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(arquivo.toString()));
 				String input = reader.readLine();
-				String[] registros = input.split("\\|");
+				String delim = "\\|";
+				if (input.indexOf("/") != -1) delim = "/";
+				String[] registros = input.split(delim);
 				boolean skip = false;
 				for (int i = 0; i < registros.length; i++) {
 					String[] usuario = registros[i].split(",");
 					for (Usuario n : Usuario.getListaDeUsuarios()) {
-						if (n.getNome().equals(usuario[0]) && n.getEndereco().equals(usuario[1])) {
+						if (n.getNome().equals(usuario[0])) {
 							System.out.println("Usuario " + n.getNome() + " já existe.");
 							skip = true;
 							retorno = false;
@@ -30,7 +32,8 @@ public class GerenciadorUsuario <U>{
 					}
 					if (!skip) {
 						Usuario u = new Usuario("Pessoa", usuario[0]);
-						u.setAtributosLegacy(usuario[1], usuario[2], usuario[3]);
+						u.setAtributosLegacy(usuario[1], usuario[3], usuario[4]);
+						u.setSexo(usuario[2]);
 					}
 					skip = false;
 				}
@@ -47,7 +50,7 @@ public class GerenciadorUsuario <U>{
 				BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios_sistema_antigo.dat"));
 				String output = "";
 				for (Usuario u : Usuario.getListaDeUsuarios()) {
-					output += u.getNome() + "," + u.getIdade() + "," + u.getEndereco() + "," + u.getTelefone() + "|";
+					output += u.getNome() + "," + u.getIdade() + "," + u.getSexo() + "," + u.getEndereco() + "," + u.getTelefone() + "|";
 				}
 				writer.write(output);
 				writer.close();
@@ -99,6 +102,7 @@ public class GerenciadorUsuario <U>{
 				if (u.getNome().equals(nomeUsuario)) {
 					System.out.println("\nNome: " + u.getNome());
 					System.out.println("Idade: " + u.getIdade());
+					System.out.println("Sexo: " + u.getSexo());
 					System.out.println("Endereço: " + u.getEndereco());
 					System.out.println("Telefone: " + u.getTelefone());
 					ArrayList<Turma> turmas = u.getTurmas();
@@ -122,6 +126,7 @@ public class GerenciadorUsuario <U>{
 				if (u.getMatricula() == nMatricula) {
 					System.out.println("\nNome: " + u.getNome());
 					System.out.println("Idade: " + u.getIdade());
+					System.out.println("Sexo: " + u.getSexo());
 					System.out.println("Endereço: " + u.getEndereco());
 					System.out.println("Telefone: " + u.getTelefone());
 					ArrayList<Turma> turmas = u.getTurmas();
@@ -145,6 +150,7 @@ public class GerenciadorUsuario <U>{
 			for (Usuario u : Usuario.getListaDeUsuarios()){
 				System.out.println("\nNome: " + u.getNome());
 				System.out.println("Idade: " + u.getIdade());
+				System.out.println("Sexo: " + u.getSexo());
 				System.out.println("Endereço: " + u.getEndereco());
 				System.out.println("Telefone: " + u.getTelefone());
 				ArrayList<Turma> turmas = u.getTurmas();
@@ -208,6 +214,7 @@ public class GerenciadorUsuario <U>{
 				if (u.getNome().equals(nomeUsuario)) {
 					System.out.println("\nNome: " + u.getNome());
 					System.out.println("Idade: " + u.getIdade());
+					System.out.println("Sexo: " + u.getSexo());
 					System.out.println("Endereço: " + u.getEndereco());
 					System.out.println("Telefone: " + u.getTelefone());
 					ArrayList<Turma> turmas = u.getTurmas();
@@ -240,6 +247,7 @@ public class GerenciadorUsuario <U>{
 				if (u.getMatricula() == nMatricula) {
 					System.out.println("\nNome: " + u.getNome());
 					System.out.println("Idade: " + u.getIdade());
+					System.out.println("Sexo: " + u.getSexo());
 					System.out.println("Endereço: " + u.getEndereco());
 					System.out.println("Telefone: " + u.getTelefone());
 					ArrayList<Turma> turmas = u.getTurmas();

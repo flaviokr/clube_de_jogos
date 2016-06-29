@@ -120,6 +120,10 @@ public class Usuario {
     this.sexo = sexo;
   }
 
+  public String getSexo() {
+    return this.sexo;
+  }
+
   public String getEndereco(){
     return this.endereco;
   }

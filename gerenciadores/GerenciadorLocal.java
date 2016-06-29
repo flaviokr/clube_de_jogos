@@ -34,7 +34,7 @@ public class GerenciadorLocal<L> {
 		} catch (Exception e) {
 			System.out.println("Erro ao cadastrar novo local");
 			GerenciamentoClubeJogosInterface g = new GerenciamentoClubeJogosInterface();
-			g.gerenciaUsuario();
+			g.gerenciaLocal();
 			retorno = false;
 		}
 		return retorno;

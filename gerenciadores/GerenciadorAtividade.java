@@ -1,120 +1,267 @@
 package gerenciadores;
 
+import modelos.*;
+import controladores.*;
 import java.util.List;
+import java.util.Scanner;
 
 public class GerenciadorAtividade <A>{
-	
-	// metodos de Atividades
-						
-			
-	/**
-	 * Cadastra nova atividade, informando primeiro os campos que devem ser preenchidos.
-	 * Deve especificar o tipo de local que ocorre.
-	 * Os campos são preenchidos por meio de entrada do usuário. Se já houver atividade com 
-	 * o mesmo nome não realiza o cadastro e uma mensagem deve ser exibida.
-	 * @return boolean - true se a atividade foi cadastrada ; false - caso contrário
-	 */
+
 	public boolean cadastrarAtividade() {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
-		return false;
+		boolean retorno = true;
+		try {
+
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Digite o nome da nova atividade");
+			String nome = scan.nextLine();
+			nome = nome.trim();
+			for (Atividade n : Atividade.getListaDeAtividades()) {
+				if (n.getNome().equals(nome)){
+					System.out.println("JÃ¡ existe atividade com esse nome");
+					return false;
+				}
+			}
+
+			System.out.println("Digite o nome do jogo");
+			String nome_jogo = scan.nextLine();
+			System.out.println("Selecione o tipo do jogo:");
+			System.out.println("(1) AnalÃ³gico");
+			System.out.println("(2) FÃ­sico");
+			String opcao_jogo = scan.nextLine();
+			String tipo_jogo = "AnalÃ³gico";
+			if (opcao_jogo.trim().equals("2")) tipo_jogo = "FÃ­sico";
+			Jogo jogo = new Jogo(nome_jogo, tipo_jogo);
+
+			System.out.println("Digite a pontuaÃ§Ã£o da atividade");
+			String pontos_string = scan.nextLine();
+			int pontos = Integer.parseInt(pontos_string);
+
+			System.out.println("Selecione o tipo do local:");
+			System.out.println("(1) Quadra");
+			System.out.println("(2) Sala");
+			String opcao = scan.nextLine();
+			String tipo_local = "Quadra";
+			if (opcao.trim().equals("2")) tipo_local = "Sala";
+
+			System.out.println("Digite a data de realizaÃ§Ã£o da atividade (dd/mm/aaaa)");
+			String data_string = scan.nextLine();
+			String[] data_array = data_string.trim().split("/");
+			Data data = new Data(Integer.parseInt(data_array[0]), Integer.parseInt(data_array[1]), Integer.parseInt(data_array[2]), true);
+
+			System.out.println("Digite o horÃ¡rio de inÃ­cio da atividade (hh:mm)");
+			String horario_string = scan.nextLine();
+			String[] horario_array = horario_string.trim().split(":");
+			Horario inicio = new Horario(Integer.parseInt(horario_array[0]), Integer.parseInt(horario_array[1]));
+
+			System.out.println("Digite a duraÃ§Ã£o (em horas) da atividade");
+			String duracao_string = scan.nextLine();
+			Horario duracao = new Horario(Integer.parseInt(duracao_string), 0);
+
+			Horario fim = new Horario(inicio.getHoras() + duracao.getHoras(), inicio.getMinutos());
+
+			Atividade a = new Atividade(jogo, pontos, data, inicio, fim, duracao);
+			a.setNome(nome);
+			a.setTipoLocal(tipo_local);
+
+		} catch (Exception e) {
+			System.out.println("Erro ao cadastrar nova atividade");
+			GerenciamentoClubeJogosInterface g = new GerenciamentoClubeJogosInterface();
+			g.gerenciaAtividade();
+			retorno = false;
+		}
+		return retorno;
 	}
-	
+
 	/**
-	 * Cadastra uma lista de atividades. Se já houver uma atividade com o mesmo nome não realiza o cadastro daquela, as outras são
-	 * cadastradas se não houver conflito.
-	 * @param atividades - lista de atividades a serem cadastradas segundo sua implementação
+	 * Cadastra uma lista de atividades. Se jï¿½ houver uma atividade com o mesmo nome nï¿½o realiza o cadastro daquela, as outras sï¿½o
+	 * cadastradas se nï¿½o houver conflito.
+	 * @param atividades - lista de atividades a serem cadastradas segundo sua implementaï¿½ï¿½o
 	 * @return boolean - true se todas as atividades forem cadastradas ; false - caso
-	 * uma ou mais atividades não tiverem sido cadastradas
+	 * uma ou mais atividades nï¿½o tiverem sido cadastradas
 	 */
 	public boolean cadastrarNovasAtividade(List<A> atividades) {
 		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+		 * TODO implementar este mï¿½todo seguindo a descriï¿½ï¿½o acima
+		 */
 		return false;
 	}
-			
-	/***
-	 * Exibe todos os campos da atividade.
-	 * @param nomeAtividade - nome da atividade a ser visualizada
-	 * 
-	 */		
+
 	public void visualizarAtividade(String nomeAtividade) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+		for (Atividade a : Atividade.getListaDeAtividades()) {
+			if (a.getNome().equals(nomeAtividade)) {
+				System.out.println("\nID: " + a.getId());
+				System.out.println("Nome: " + a.getNome());
+				System.out.println("Jogo: " + a.getJogo().getNome());
+				System.out.println("Tipo do local: " + a.getTipoLocal());
+				System.out.println("Data de realizaÃ§Ã£o: " + a.getData().getDia() + "/" + a.getData().getMes() + "/" + a.getData().getAno());
+				System.out.println("HorÃ¡rio de inÃ­cio: " + a.getInicio().getHoras() + ":" + a.getInicio().getMinutos());
+				System.out.println("DuraÃ§Ã£o: " + a.getDuracao().getHoras() + " horas");
+				return;
+			}
+		}
 	}
-	
-	
-	/***
-	 * Exibe todos os campos da atividade.
-	 * @param id - identificador da atividade a ser visualizada
-	 * 
-	 */
+
 	public void visualizarAtividade(int id) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+		for (Atividade a : Atividade.getListaDeAtividades()) {
+			if (a.getId() == id) {
+				System.out.println("\nID: " + a.getId());
+				System.out.println("Nome: " + a.getNome());
+				System.out.println("Jogo: " + a.getJogo().getNome());
+				System.out.println("Tipo do local: " + a.getTipoLocal());
+				System.out.println("Data de realizaÃ§Ã£o: " + a.getData().getDia() + "/" + a.getData().getMes() + "/" + a.getData().getAno());
+				System.out.println("HorÃ¡rio de inÃ­cio: " + a.getInicio().getHoras() + ":" + a.getInicio().getMinutos());
+				System.out.println("DuraÃ§Ã£o: " + a.getDuracao().getHoras() + " horas");
+				return;
+			}
+		}
 	}
-	
-	/**
-	 * Exibe o numero total de atividades cadastradas e todos os campos de cada uma.
-	 * @return int - contendo o numero de atividades cadastradas 
-	 */
+
 	public int visualizarTodasAtividades() {
-		return 0;
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+		System.out.println("\nNÃºmero total de atividades: " + Atividade.getListaDeAtividades().size());
+		for (Atividade a : Atividade.getListaDeAtividades()) {
+			System.out.println("\nID: " + a.getId());
+			System.out.println("Nome: " + a.getNome());
+			System.out.println("Jogo: " + a.getJogo().getNome());
+			System.out.println("Tipo do local: " + a.getTipoLocal());
+			System.out.println("Data de realizaÃ§Ã£o: " + a.getData().getDia() + "/" + a.getData().getMes() + "/" + a.getData().getAno());
+			System.out.println("HorÃ¡rio de inÃ­cio: " + a.getInicio().getHoras() + ":" + a.getInicio().getMinutos());
+			System.out.println("DuraÃ§Ã£o: " + a.getDuracao().getHoras() + " horas");
+		}
+		return Atividade.getListaDeAtividades().size();
 	}
-	
-	
+
+
 	/**
-	 * Altera um ou mais campos da atividade passada como parâmetro.
+	 * Altera um ou mais campos da atividade passada como parï¿½metro.
 	 * @param nomeAtividade - nome da atividade a ser editada
-	 *  
+	 *
 	 */
 	public void editarAtividade(String nomeAtividade) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+		for (Atividade a : Atividade.getListaDeAtividades()){
+			if (a.getNome().equals(nomeAtividade)) {
+				Scanner scan = new Scanner(System.in);
+
+				System.out.println("Digite o novo nome da atividade (deixe em branco se nÃ£o quiser alterar)");
+				String nome = scan.nextLine();
+
+				System.out.println("Digite o novo nome do jogo (deixe em branco se nÃ£o quiser alterar)");
+				String nome_jogo = scan.nextLine();
+
+				System.out.println("Selecione o novo tipo do jogo (deixe em branco se nÃ£o quiser alterar)");
+				System.out.println("(1) AnalÃ³gico");
+				System.out.println("(2) FÃ­sico");
+				String opcao = scan.nextLine();
+				String tipo_jogo = "AnalÃ³gico";
+				if (opcao.trim().equals("2")) tipo_jogo = "FÃ­sico";
+
+				if (!nome_jogo.trim().equals("")) a.getJogo().setNome(nome_jogo);
+				if (!tipo_jogo.trim().equals("")) a.getJogo().setTipo(tipo_jogo);
+
+				System.out.println("Digite a nova pontuaÃ§Ã£o da atividade (deixe em branco se nÃ£o quiser alterar)");
+				String pontos_string = scan.nextLine();
+
+				System.out.println("Selecione o novo tipo do local da atividade (deixe em branco se nÃ£o quiser alterar)");
+				System.out.println("(1) Quadra");
+				System.out.println("(2) Sala");
+				opcao = scan.nextLine();
+				String tipo_local = "Quadra";
+				if (opcao.trim().equals("2")) tipo_jogo = "Sala";
+
+				if (!nome.trim().equals("")) a.setNome(nome);
+				if (!pontos_string.trim().equals("")) a.setPontos(Integer.parseInt(pontos_string));
+				if (!tipo_local.trim().equals("")) a.setTipoLocal(tipo_local);
+			}
+		}
 	}
-			
+
 	/**
-	 * Exibe todos os campos da atividade passado como parâmetro e altera um ou mais campos. 
-	 * Os campos são preenchidos por meio de entrada do usuário. 
+	 * Exibe todos os campos da atividade passado como parï¿½metro e altera um ou mais campos.
+	 * Os campos sï¿½o preenchidos por meio de entrada do usuï¿½rio.
 	 * @param id - identificador da atividade a ser editada
-	 * 
-	 */		
+	 *
+	 */
 	public void editarAtividade(int id) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+			for (Atividade a : Atividade.getListaDeAtividades()){
+				if (a.getId() == id) {
+					Scanner scan = new Scanner(System.in);
+
+					System.out.println("Digite o novo nome da atividade (deixe em branco se nÃ£o quiser alterar)");
+					String nome = scan.nextLine();
+
+					System.out.println("Digite o novo nome do jogo (deixe em branco se nÃ£o quiser alterar)");
+					String nome_jogo = scan.nextLine();
+
+					System.out.println("Selecione o novo tipo do jogo (deixe em branco se nÃ£o quiser alterar)");
+					System.out.println("(1) AnalÃ³gico");
+					System.out.println("(2) FÃ­sico");
+					String opcao = scan.nextLine();
+					String tipo_jogo = "AnalÃ³gico";
+					if (opcao.trim().equals("2")) tipo_jogo = "FÃ­sico";
+
+					if (!nome_jogo.trim().equals("")) a.getJogo().setNome(nome_jogo);
+					if (!tipo_jogo.trim().equals("")) a.getJogo().setTipo(tipo_jogo);
+
+					System.out.println("Digite a nova pontuaÃ§Ã£o da atividade (deixe em branco se nÃ£o quiser alterar)");
+					String pontos_string = scan.nextLine();
+
+					System.out.println("Selecione o novo tipo do local da atividade (deixe em branco se nÃ£o quiser alterar)");
+					System.out.println("(1) Quadra");
+					System.out.println("(2) Sala");
+					opcao = scan.nextLine();
+					String tipo_local = "Quadra";
+					if (opcao.trim().equals("2")) tipo_jogo = "Sala";
+
+					if (!nome.trim().equals("")) a.setNome(nome);
+					if (!pontos_string.trim().equals("")) a.setPontos(Integer.parseInt(pontos_string));
+					if (!tipo_local.trim().equals("")) a.setTipoLocal(tipo_local);
+				}
+			}
 	}
-	
-	/**
-	 * Exibe todos os campos da atividade e exige confirmação para realizar a remoção.
-	 * confirmação é realizada por entrada do usuário.
-	 * @param nomeAtividade - nome atividade a ser removida
-	 * @return true - se confirma remoção; false - se cancela remoção
-	 */
-	public void removerAtividade(String nomeAtividade) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+
+	public boolean removerAtividade(String nomeAtividade) {
+		for (Atividade a : Atividade.getListaDeAtividades()){
+			if (a.getNome().equals(nomeAtividade)) {
+				System.out.println("\nID: " + a.getId());
+				System.out.println("Nome: " + a.getNome());
+				System.out.println("Jogo: " + a.getJogo().getNome());
+				System.out.println("Tipo do local: " + a.getTipoLocal());
+				System.out.println("Data de realizaÃ§Ã£o: " + a.getData().getDia() + "/" + a.getData().getMes() + "/" + a.getData().getAno());
+				System.out.println("HorÃ¡rio de inÃ­cio: " + a.getInicio().getHoras() + ":" + a.getInicio().getMinutos());
+				System.out.println("DuraÃ§Ã£o: " + a.getDuracao().getHoras() + " horas");
+				System.out.println("\nTem certeza que deseja remover essa atividade? (s/n)");
+				Scanner scan = new Scanner(System.in);
+				String resp = scan.nextLine();
+				if (resp.equals("s")) {
+					Atividade.getListaDeAtividades().remove(a);
+					return true;
+				}
+			}
+		}
+		System.out.println("Atividade nÃ£o removido");
+		return false;
 	}
-	
-	/**
-	 * Exibe todos os campos da atividade e exige confirmação para realizar a remoção.
-	 * confirmação é realizada por entrada do usuário.
-	 * @param id - identificador da atividade a ser removida
-	 * @return true - se confirma remoção; false - se cancela remoção
-	 */
-	public void removerAtividade(int id) {
-		/**
-		 * TODO implementar este método seguindo a descrição acima
-		 */	
+
+	public boolean removerAtividade(int id) {
+		for (Atividade a : Atividade.getListaDeAtividades()){
+			if (a.getId() == id) {
+				System.out.println("\nID: " + a.getId());
+				System.out.println("Nome: " + a.getNome());
+				System.out.println("Jogo: " + a.getJogo().getNome());
+				System.out.println("Tipo do local: " + a.getTipoLocal());
+				System.out.println("Data de realizaÃ§Ã£o: " + a.getData().getDia() + "/" + a.getData().getMes() + "/" + a.getData().getAno());
+				System.out.println("HorÃ¡rio de inÃ­cio: " + a.getInicio().getHoras() + ":" + a.getInicio().getMinutos());
+				System.out.println("DuraÃ§Ã£o: " + a.getDuracao().getHoras() + " horas");
+				System.out.println("\nTem certeza que deseja remover essa atividade? (s/n)");
+				Scanner scan = new Scanner(System.in);
+				String resp = scan.nextLine();
+				if (resp.equals("s")) {
+					Atividade.getListaDeAtividades().remove(a);
+					return true;
+				}
+			}
+		}
+		System.out.println("Atividade nÃ£o removido");
+		return false;
 	}
 
 }

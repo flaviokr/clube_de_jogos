@@ -5,12 +5,7 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class GerenciamentoClubeJogosInterface {
-
-	/**
-	 * Cria uma inst�ncia do tipo GerenciaUsuarioInterface e exibe as op��es de
-	 * gerenciamento.
-	 * As op��es s�o escolhidas por meio de entrada do usu�rio.	 *
-	 */
+	
 	public void gerenciaUsuario() {
 		GerenciadorUsuario<Usuario> g = new GerenciadorUsuario<Usuario>();
 		System.out.println("\nO que deseja fazer?");
@@ -27,6 +22,8 @@ public class GerenciamentoClubeJogosInterface {
 		System.out.println("(11) Remover usuário (matrícula)");
 		Scanner scan = new Scanner(System.in);
 		String opcao = scan.nextLine();
+		String nome = "";
+		String matricula = "";
 		switch (opcao) {
 			case "1":
 				System.out.println("\nDigite o nome do arquivo");
@@ -45,12 +42,12 @@ public class GerenciamentoClubeJogosInterface {
 			break;
 			case "5":
 				System.out.println("Digite o nome do usuário que deseja buscar");
-				String nome = scan.nextLine();
+				nome = scan.nextLine();
 				g.visualizarUsuario(nome.trim());
 			break;
 			case "6":
 				System.out.println("Digite o número de matrícula do usuário que deseja buscar");
-				String matricula = scan.nextLine();
+				matricula = scan.nextLine();
 				g.visualizarUsuario(Integer.parseInt(matricula));
 			break;
 			case "7":
@@ -79,22 +76,65 @@ public class GerenciamentoClubeJogosInterface {
 		}
 	}
 
-	/**
-	 * Cria uma inst�ncia do tipo GerenciaAtividadeInterface e exibe as op��es de
-	 * gerenciamento.
-	 * As op��es s�o escolhidas por meio de entrada do usu�rio.	 *
-	 */
 	public void gerenciaAtividade() {
-		/**
-		 * TODO implementar este m�todo seguindo a descri��o acima
-		 */
+		GerenciadorAtividade<Atividade> g = new GerenciadorAtividade<Atividade>();
+		System.out.println("\nO que deseja fazer?");
+		System.out.println("(1) Cadastrar nova atividade");
+		System.out.println("(2) Cadastrar novas atividades");
+		System.out.println("(3) Visualizar atividade (nome)");
+		System.out.println("(4) Visualizar atividade (id)");
+		System.out.println("(5) Visualizar todas as atividades");
+		System.out.println("(6) Editar atividade (nome)");
+		System.out.println("(7) Editar atividade (id)");
+		System.out.println("(8) Remover atividade (nome)");
+		System.out.println("(9) Remover atividade (id)");
+		Scanner scan = new Scanner(System.in);
+		String opcao = scan.nextLine();
+		String nome = "";
+		String id = "";
+		switch (opcao) {
+			case "1":
+				g.cadastrarAtividade();
+			break;
+			case "2":
+				// nao sabemos
+			break;
+			case "3":
+				System.out.println("Digite o nome da atividade que deseja buscar");
+				nome = scan.nextLine();
+				g.visualizarAtividade(nome.trim());
+			break;
+			case "4":
+				System.out.println("Digite o id da atividade que deseja buscar");
+				id = scan.nextLine();
+				g.visualizarAtividade(Integer.parseInt(id));
+			break;
+			case "5":
+				g.visualizarTodasAtividades();
+			break;
+			case "6":
+				System.out.println("Digite o nome da atividade que deseja editar");
+				nome = scan.nextLine();
+				g.editarAtividade(nome.trim());
+			break;
+			case "7":
+				System.out.println("Digite o id da atividade que deseja editar");
+				id = scan.nextLine();
+				g.editarAtividade(Integer.parseInt(id));
+			break;
+			case "8":
+				System.out.println("Digite o nome da atividade que deseja remover");
+				nome = scan.nextLine();
+				g.removerAtividade(nome.trim());
+			break;
+			case "9":
+				System.out.println("Digite o id da atividade que deseja remover");
+				id = scan.nextLine();
+				g.removerAtividade(Integer.parseInt(id));
+			break;
+		}
 	}
 
-	/**
-	 * Cria uma inst�ncia do tipo GerenciaLocalInterface e exibe as op��es de
-	 * gerenciamento.
-	 * As op��es s�o escolhidas por meio de entrada do usu�rio.	 *
-	 */
 	public void gerenciaLocal() {
 		GerenciadorLocal<Espaco> g = new GerenciadorLocal<Espaco>();
 		System.out.println("\nO que deseja fazer?");
@@ -109,18 +149,20 @@ public class GerenciamentoClubeJogosInterface {
 		System.out.println("(9) Remover local (id)");
 		Scanner scan = new Scanner(System.in);
 		String opcao = scan.nextLine();
+		String nome = "";
+		String id = "";
 		switch (opcao) {
 			case "1":
 				g.cadastrarNovoLocal();
 			break;
 			case "3":
 				System.out.println("Digite o nome do local que deseja buscar");
-				String nome = scan.nextLine();
+				nome = scan.nextLine();
 				g.visualizarLocal(nome.trim());
 			break;
 			case "4":
 				System.out.println("Digite o id do local que deseja buscar");
-				String id = scan.nextLine();
+				id = scan.nextLine();
 				g.visualizarLocal(Integer.parseInt(id));
 			break;
 			case "5":
