@@ -1,11 +1,12 @@
 package gerenciadores;
 import modelos.*;
+import relatorios.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class GerenciamentoClubeJogosInterface {
-	
+
 	public void gerenciaUsuario() {
 		GerenciadorUsuario<Usuario> g = new GerenciadorUsuario<Usuario>();
 		System.out.println("\nO que deseja fazer?");
@@ -24,15 +25,25 @@ public class GerenciamentoClubeJogosInterface {
 		String opcao = scan.nextLine();
 		String nome = "";
 		String matricula = "";
+		String op;
+		String res;
+		boolean ret;
+		Log log = Log.getInstance();
 		switch (opcao) {
 			case "1":
 				System.out.println("\nDigite o nome do arquivo");
 				String arquivo = scan.nextLine();
 				Path path = Paths.get(arquivo.trim());
-				g.cadastraUsuariosAntigos(path);
+				ret =  g.cadastraUsuariosAntigos(path);
+				op = "Cadastrar usuários antigos";
+				res = ret ? "Todos os cadastros realizados com sucesso" : "Alguns cadastros não realizados";
+				log.logar(op, res);
 			break;
 			case "2":
 				g.exportaUsuariosSistemaAntigo();
+				op = "Exportar usuários sistema antigo";
+				res = "Exportação realizada com sucesso";
+				log.logar(op, res);
 			break;
 			case "3":
 				g.cadastrarNovoUsuario();
