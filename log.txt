@@ -1,2 +1,7 @@
-
-30-06-2016 00:13 - Cadastrar usuários antigos - Todos os cadastros realizados com sucesso
+30-06-2016 00:27 - Cadastrar usuários antigos - Todos os cadastros realizados com sucesso
+30-06-2016 00:27 - Visualizar todos os usuários - Visualizou todos os usuários com sucesso
+30-06-2016 00:27 - Remover usuário - Usuário de matrícula 1 removido com sucesso
+30-06-2016 00:27 - Remover usuário - Usuário de matrícula 2 removido com sucesso
+30-06-2016 00:28 - Remover usuário - Usuário de matrícula 1 não removido
+30-06-2016 00:44 - Cadastrar uma nova atividade - Cadastro realizado com sucesso
+30-06-2016 00:49 - Visualizar todos os usuários - Visualizou todos os usuários com sucesso

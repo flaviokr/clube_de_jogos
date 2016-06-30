@@ -1,9 +1,12 @@
 package gerenciadores;
+
 import modelos.*;
 import relatorios.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class GerenciamentoClubeJogosInterface {
 
@@ -46,7 +49,10 @@ public class GerenciamentoClubeJogosInterface {
 				log.logar(op, res);
 			break;
 			case "3":
-				g.cadastrarNovoUsuario();
+				ret = g.cadastrarNovoUsuario();
+				op = "Cadastrar novo usuário";
+				res = ret ? "Cadastro realizado com sucesso" : "Cadastro não realizado";
+				log.logar(op, res);
 			break;
 			case "4":
 				//g.cadastrarNovosUsuarios();
@@ -55,96 +61,145 @@ public class GerenciamentoClubeJogosInterface {
 				System.out.println("Digite o nome do usuário que deseja buscar");
 				nome = scan.nextLine();
 				g.visualizarUsuario(nome.trim());
+				op = "Visualizar usuário";
+				res = "Visualizou o usuário " + nome.trim();
+				log.logar(op, res);
 			break;
 			case "6":
 				System.out.println("Digite o número de matrícula do usuário que deseja buscar");
 				matricula = scan.nextLine();
 				g.visualizarUsuario(Integer.parseInt(matricula));
+				op = "Visualizar usuário";
+				res = "Visualizou o usuário de matrícula" + matricula.trim();
+				log.logar(op, res);
 			break;
 			case "7":
 				g.visualizarTodosUsuarios();
+				op = "Visualizar todos os usuários";
+				res = "Visualizou todos os usuários com sucesso";
+				log.logar(op, res);
 			break;
 			case "8":
 				System.out.println("Digite o nome do usuário que deseja editar");
 				nome = scan.nextLine();
 				g.editarUsuario(nome.trim());
+				op = "Editar usuário";
+				res = "Editou o usuário " + nome.trim();
+				log.logar(op, res);
 			break;
 			case "9":
 				System.out.println("Digite o número de matrícula do usuário que deseja editar");
 				matricula = scan.nextLine();
 				g.editarUsuario(Integer.parseInt(matricula));
+				op = "Editar usuário";
+				res = "Editou o usuário de matrícula " + matricula.trim();
+				log.logar(op, res);
 			break;
 			case "10":
 				System.out.println("Digite o nome do usuário que deseja remover");
 				nome = scan.nextLine();
-				g.removerUsuario(nome);
+				ret = g.removerUsuario(nome);
+				op = "Remover usuário";
+				res = ret ? "Usuário " + nome.trim() + " removido com sucesso" : "Usuário " + nome.trim() + " não removido";
+				log.logar(op, res);
 			break;
 			case "11":
-				System.out.println("Digite o núemro da matrícula do usuário que deseja remover");
+				System.out.println("Digite o número da matrícula do usuário que deseja remover");
 				matricula = scan.nextLine();
-				g.removerUsuario(Integer.parseInt(matricula));
+				ret = g.removerUsuario(Integer.parseInt(matricula));
+				op = "Remover usuário";
+				res = ret ? "Usuário de matrícula " + matricula.trim() + " removido com sucesso" : "Usuário de matrícula " + matricula.trim() + " não removido";
+				log.logar(op, res);
 			break;
 		}
 	}
 
 	public void gerenciaAtividade() {
-		GerenciadorAtividade<Atividade> g = new GerenciadorAtividade<Atividade>();
-		System.out.println("\nO que deseja fazer?");
-		System.out.println("(1) Cadastrar nova atividade");
-		System.out.println("(2) Cadastrar novas atividades");
-		System.out.println("(3) Visualizar atividade (nome)");
-		System.out.println("(4) Visualizar atividade (id)");
-		System.out.println("(5) Visualizar todas as atividades");
-		System.out.println("(6) Editar atividade (nome)");
-		System.out.println("(7) Editar atividade (id)");
-		System.out.println("(8) Remover atividade (nome)");
-		System.out.println("(9) Remover atividade (id)");
-		Scanner scan = new Scanner(System.in);
-		String opcao = scan.nextLine();
-		String nome = "";
-		String id = "";
-		switch (opcao) {
-			case "1":
-				g.cadastrarAtividade();
-			break;
-			case "2":
-				// nao sabemos
-			break;
-			case "3":
-				System.out.println("Digite o nome da atividade que deseja buscar");
-				nome = scan.nextLine();
-				g.visualizarAtividade(nome.trim());
-			break;
-			case "4":
-				System.out.println("Digite o id da atividade que deseja buscar");
-				id = scan.nextLine();
-				g.visualizarAtividade(Integer.parseInt(id));
-			break;
-			case "5":
-				g.visualizarTodasAtividades();
-			break;
-			case "6":
-				System.out.println("Digite o nome da atividade que deseja editar");
-				nome = scan.nextLine();
-				g.editarAtividade(nome.trim());
-			break;
-			case "7":
-				System.out.println("Digite o id da atividade que deseja editar");
-				id = scan.nextLine();
-				g.editarAtividade(Integer.parseInt(id));
-			break;
-			case "8":
-				System.out.println("Digite o nome da atividade que deseja remover");
-				nome = scan.nextLine();
-				g.removerAtividade(nome.trim());
-			break;
-			case "9":
-				System.out.println("Digite o id da atividade que deseja remover");
-				id = scan.nextLine();
-				g.removerAtividade(Integer.parseInt(id));
-			break;
-		}
-	}
+    GerenciadorAtividade<Atividade> g = new GerenciadorAtividade<Atividade>();
+    System.out.println("\nO que deseja fazer?");
+    System.out.println("(1) Cadastrar nova atividade");
+    System.out.println("(2) Cadastrar novas atividades");
+    System.out.println("(3) Visualizar atividade (nome)");
+    System.out.println("(4) Visualizar atividade (id)");
+    System.out.println("(5) Visualizar todas as atividades");
+    System.out.println("(6) Editar atividade (nome)");
+    System.out.println("(7) Editar atividade (id)");
+    System.out.println("(8) Remover atividade (nome)");
+    System.out.println("(9) Remover atividade (id)");
+    Scanner scan = new Scanner(System.in);
+    String opcao = scan.nextLine();
+    String nome = "";
+    String id = "";
+    String op;
+    String res;
+    boolean ret;
+    Log log = Log.getInstance();
+    switch (opcao) {
+      case "1":
+        ret = g.cadastrarAtividade();
+        op = "Cadastrar uma nova atividade";
+        res = ret ? "Cadastro realizado com sucesso" : "Cadastro não realizado";
+        log.logar(op, res);
+      break;
+      case "2":
+          // nao sabemos
+      break;
+      case "3":
+        System.out.println("Digite o nome da atividade que deseja buscar");
+        nome = scan.nextLine();
+        g.visualizarAtividade(nome.trim());
+        op = "Visualizar atividade";
+        res = "Visualizou a atividade:" + nome.trim();
+        log.logar(op, res);
+      break;
+      case "4":
+        System.out.println("Digite o id da atividade que deseja buscar");
+        id = scan.nextLine();
+        g.visualizarAtividade(Integer.parseInt(id));
+        op = "Visualizar atividade";
+        res = "Visualizou a atividade de Id: " + id.trim();
+        log.logar(op, res);
+      break;
+      case "5":
+        g.visualizarTodasAtividades();
+        op = "Visualizar todas as atividades";
+        res = "Visualizou todas as atividades com sucesso";
+        log.logar(op, res);
+      break;
+      case "6":
+        System.out.println("Digite o nome da atividade que deseja editar");
+        nome = scan.nextLine();
+        g.editarAtividade(nome.trim());
+        op = "Editou atividade";
+        res = "Editou a atividade: " + nome.trim();
+        log.logar(op, res);
+      break;
+      case "7":
+        System.out.println("Digite o id da atividade que deseja editar");
+        id = scan.nextLine();
+        g.editarAtividade(Integer.parseInt(id));
+        op = "Editar atividade";
+        res = "Editou a atividade de Id: " + id.trim();
+        log.logar(op, res);
+      break;
+      case "8":
+        System.out.println("Digite o nome da atividade que deseja remover");
+        nome = scan.nextLine();
+        ret = g.removerAtividade(nome.trim());
+        op = "Remover atividade";
+        res = ret ? "Removeu a atividade " + nome.trim() : "Remoção não realizada";
+        log.logar(op, res);
+      break;
+      case "9":
+        System.out.println("Digite o id da atividade que deseja remover");
+        id = scan.nextLine();
+        ret = g.removerAtividade(Integer.parseInt(id));
+        op = "Remover atividade";
+        res = ret ? "Removeu a atividade de Id " + id.trim() : "Remoção não realizada";
+        log.logar(op, res);
+      break;
+    }
+  }
 
 	public void gerenciaLocal() {
 		GerenciadorLocal<Espaco> g = new GerenciadorLocal<Espaco>();
@@ -162,42 +217,70 @@ public class GerenciamentoClubeJogosInterface {
 		String opcao = scan.nextLine();
 		String nome = "";
 		String id = "";
+		String op;
+		String res;
+		boolean ret;
+		Log log = Log.getInstance();
 		switch (opcao) {
 			case "1":
-				g.cadastrarNovoLocal();
+				ret = g.cadastrarNovoLocal();
+				op = "Cadastrar novo local";
+				res = ret ? "Local cadastrado com sucesso" : "Local não cadastrado";
+				log.logar(op, res);
 			break;
 			case "3":
 				System.out.println("Digite o nome do local que deseja buscar");
 				nome = scan.nextLine();
 				g.visualizarLocal(nome.trim());
+				op = "Visualiazar local";
+				res = "Visualizou local de nome " + nome.trim() + " com sucesso";
+				log.logar(op, res);
 			break;
 			case "4":
 				System.out.println("Digite o id do local que deseja buscar");
 				id = scan.nextLine();
 				g.visualizarLocal(Integer.parseInt(id));
+				op = "Visualiazar local";
+				res = "Visualizou local de id " + id.trim() + " com sucesso";
+				log.logar(op, res);
 			break;
 			case "5":
 				g.visualizarTodosLocais();
+				op = "Visualizar todos os locais";
+				res = "Visualizou todos os locais com sucesso";
+				log.logar(op, res);
 			break;
 			case "6":
 				System.out.println("Digite o nome do local que deseja editar");
 				nome = scan.nextLine();
 				g.editarLocal(nome);
+				op = "Editar local";
+				res = "Editou local de nome " + nome.trim() + " com sucesso";
+				log.logar(op, res);
 			break;
 			case "7":
 				System.out.println("Digite o número do id do local que deseja editar");
 				id = scan.nextLine();
 				g.editarLocal(Integer.parseInt(id));
+				op = "Editar local";
+				res = "Editou local de id " + id.trim() + " com sucesso";
+				log.logar(op, res);
 			break;
 			case "8":
 				System.out.println("Digite o nome do local que deseja remover");
 				nome = scan.nextLine();
-				g.removerLocal(nome);
+				ret = g.removerLocal(nome);
+				op = "Remover local";
+				res = ret ? "Local de nome " + nome.trim() + " removido com sucesso" : "Local de nome " + nome.trim() + " não removido";
+				log.logar(op, res);
 			break;
 			case "9":
 				System.out.println("Digite o número do id do local que deseja remover");
 				id = scan.nextLine();
-				g.removerLocal(Integer.parseInt(id));
+				ret = g.removerLocal(Integer.parseInt(id));
+				op = "Remover local";
+				res = ret ? "Local de id " + id.trim() + " removido com sucesso" : "Local de id " + id.trim() + " não removido";
+				log.logar(op, res);
 			break;
 		}
 	}
@@ -221,9 +304,17 @@ public class GerenciamentoClubeJogosInterface {
 	 *  exista uma inst�ncia �nica de log no sistema.
 	 */
 	public void exibeLog() {
-		/**
-		 * TODO implementar este m�todo seguindo a descri��o acima
-		 */
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader("log.txt"));
+			String input = reader.readLine();			
+			System.out.println("\n");
+			while (input != null) {
+				System.out.println(input);
+				input = reader.readLine();
+			}
+		} catch (Exception e) {
+			System.out.println("\nErro na escrita do log");
+		}
 	}
 
 
